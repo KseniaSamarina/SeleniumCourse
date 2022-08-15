@@ -1,16 +1,19 @@
-package seleniumcourse.pages;
+package pages;
 
-import org.junit.jupiter.api.Assertions;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import seleniumcourse.BaseTest;
-import seleniumcourse.testproperties.TestProperties;
+import project.BaseTest;
 
 import java.util.Properties;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static testproperties.TestProperties.getInstance;
+
 public class CreateBusinessTrip extends BaseTest {
 
-    private final Properties properties = TestProperties.getInstance().getProperties();
+    private final Properties properties = getInstance().getProperties();
 
     @FindBy(xpath = "//select[@name='crm_business_trip[businessUnit]']")
     private WebElement openDepartmentMenu;
@@ -51,6 +54,7 @@ public class CreateBusinessTrip extends BaseTest {
     @FindBy(xpath = "//input[@name='crm_business_trip[company]']")
     private WebElement company;
 
+    @Step("Заполнение полей на форме создание командировки")
     public void enterValues() {
         openDepartmentMenu.click();
         selectDepartment.click();
@@ -65,23 +69,25 @@ public class CreateBusinessTrip extends BaseTest {
         clickSomewhere.click();
     }
 
+    @Step("Проверка, что поля на форме заполнены корректно")
     public void dataVerification() {
-        Assertions.assertEquals("Центр разработки и сопровождения",
+        assertEquals("Центр разработки и сопровождения",
                 selectDepartment.getText(), "Поле заполнено неверно");
-        Assertions.assertEquals("(Хром) Призрачная Организация Охотников",
+        assertEquals("(Хром) Призрачная Организация Охотников",
                 company.getAttribute("value"), "Поле заполнено неверно");
-        Assertions.assertTrue(selectCheckbox.isSelected(), "Чекбокс 'Заказ билетов' не выбран");
-        Assertions.assertEquals("Россия, Магадан", enterArrivalCity.getAttribute("value"), "Поле заполнено неверно");
-        Assertions.assertEquals("22.10.2022", enterDepartureDate.getAttribute("value"), "Поле заполнено неверно");
-        Assertions.assertEquals("22.10.2099", enterReturnDate.getAttribute("value"), "Поле заполнено неверно");
+        assertTrue(selectCheckbox.isSelected(), "Чекбокс 'Заказ билетов' не выбран");
+        assertEquals("Россия, Магадан", enterArrivalCity.getAttribute("value"), "Поле заполнено неверно");
+        assertEquals("22.10.2022", enterDepartureDate.getAttribute("value"), "Поле заполнено неверно");
+        assertEquals("22.10.2099", enterReturnDate.getAttribute("value"), "Поле заполнено неверно");
     }
 
+    @Step("Проверка появления сообщения об ошибке 'Список командируемых сотрудников не может быть пустым'")
     public void popupMessage() {
         clickSaveAndClose.click();
         loading();
         messageValidationFailed.isDisplayed();
 
-        Assertions.assertTrue(messageValidationFailed.isDisplayed(), "Страница не загрузилась");
-        Assertions.assertEquals("Список командируемых сотрудников не может быть пустым", messageValidationFailed.getText(), "Сообщения об ошибке валидации не появилось!");
+        assertTrue(messageValidationFailed.isDisplayed(), "Страница не загрузилась");
+        assertEquals("Список командируемых сотрудников не может быть пустым", messageValidationFailed.getText(), "Сообщения об ошибке валидации не появилось!");
     }
 }

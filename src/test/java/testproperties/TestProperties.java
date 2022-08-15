@@ -1,4 +1,4 @@
-package seleniumcourse.testproperties;
+package testproperties;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,7 +8,7 @@ public class TestProperties {
     private final Properties properties = new Properties();
     private static TestProperties instance = null;
 
-    private TestProperties () {
+    private TestProperties() {
         try {
             properties.load(new FileInputStream("environment.properties"));
         } catch (IOException e) {
@@ -26,5 +26,4 @@ public class TestProperties {
     public Properties getProperties() {
         return properties;
     }
-
 }
