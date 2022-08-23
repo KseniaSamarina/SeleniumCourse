@@ -16,6 +16,7 @@ public class BaseTest {
     private WebElement loadingIcon;
     protected static WebDriver driver = getWebDriver();
     protected static WebDriverWait wait = new WebDriverWait(driver, ofSeconds(5));
+    protected PageManager pageManager = PageManager.getInstance();
 
     public BaseTest() {
         initElements(driver, this);

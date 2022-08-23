@@ -22,8 +22,7 @@ public class BusinessTripsPage extends BaseTest {
     @FindBy(xpath = "//h1[text() = 'Создать командировку']")
     private WebElement titleCreateBusinessTrip;
 
-    @Step("Нажатие кнопки 'Создать командировку'")
-    public void createBusinessTrip() {
+    public CreateBusinessTrip createBusinessTrip() {
         submitCreateBusinessTrip.click();
         loading();
         wait.until(visibilityOf(titleCreateBusinessTrip));
@@ -31,5 +30,6 @@ public class BusinessTripsPage extends BaseTest {
         assertTrue(titleCreateBusinessTrip.isDisplayed(), "Страница не загрузилась");
         assertEquals("Создать командировку", titleCreateBusinessTrip.getText(),
                 "Заголовок на странице не совпадает");
+        return pageManager.getCreateBusinessTrip();
     }
 }

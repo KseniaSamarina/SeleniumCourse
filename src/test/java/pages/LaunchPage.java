@@ -18,10 +18,10 @@ public class LaunchPage extends BaseTest {
     @FindBy(xpath = "//span[text()='Командировки']")
     private WebElement clickBusinessTrips;
 
-    @Step("Открытие раздела 'Командировки'")
-    public void openBusinessTrips() {
+    public BusinessTripsPage openBusinessTrips() {
         costList.click();
         clickBusinessTrips.click();
         loading();
+        return pageManager.getBusinessTripsPage();
     }
 }

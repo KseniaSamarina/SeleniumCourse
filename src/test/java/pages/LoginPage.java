@@ -29,20 +29,20 @@ public class LoginPage extends BaseTest {
     @FindBy(xpath = "//h1[@class='oro-subtitle']")
     private WebElement subtitle;
 
-    @Step("Ввод логина и пароля на форме авторизации")
-    public void enterLoginAndPassword(String login, String password) {
+    public LoginPage enterLoginAndPassword(String login, String password) {
         wait.until(visibilityOf(loginFormWindow));
         loginField.sendKeys(login);
         passwordField.sendKeys(password);
+        return pageManager.getLoginPage();
     }
 
-    @Step("Нажатие кнопки 'Войти'")
-    public void submitClick() {
+    public LaunchPage submitClick() {
         submitButton.click();
         wait.until(visibilityOf(subtitle));
 
         assertTrue(subtitle.isDisplayed(), "Страница не загрузилась");
         assertEquals("Панель быстрого запуска",
                 subtitle.getText(), "Заголовок на странице не совпадает");
+        return pageManager.getLaunchPage();
     }
 }

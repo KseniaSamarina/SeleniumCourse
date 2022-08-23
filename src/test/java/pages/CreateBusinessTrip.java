@@ -54,8 +54,7 @@ public class CreateBusinessTrip extends BaseTest {
     @FindBy(xpath = "//input[@name='crm_business_trip[company]']")
     private WebElement company;
 
-    @Step("Заполнение полей на форме создание командировки")
-    public void enterValues() {
+    public CreateBusinessTrip enterValues() {
         openDepartmentMenu.click();
         selectDepartment.click();
         openCompany.click();
@@ -67,10 +66,10 @@ public class CreateBusinessTrip extends BaseTest {
         clickSomewhere.click();
         enterReturnDate.sendKeys("22.10.2099");
         clickSomewhere.click();
+        return pageManager.getCreateBusinessTrip();
     }
 
-    @Step("Проверка, что поля на форме заполнены корректно")
-    public void dataVerification() {
+    public CreateBusinessTrip dataVerification() {
         assertEquals("Центр разработки и сопровождения",
                 selectDepartment.getText(), "Поле заполнено неверно");
         assertEquals("(Хром) Призрачная Организация Охотников",
@@ -79,15 +78,16 @@ public class CreateBusinessTrip extends BaseTest {
         assertEquals("Россия, Магадан", enterArrivalCity.getAttribute("value"), "Поле заполнено неверно");
         assertEquals("22.10.2022", enterDepartureDate.getAttribute("value"), "Поле заполнено неверно");
         assertEquals("22.10.2099", enterReturnDate.getAttribute("value"), "Поле заполнено неверно");
+        return pageManager.getCreateBusinessTrip();
     }
 
-    @Step("Проверка появления сообщения об ошибке 'Список командируемых сотрудников не может быть пустым'")
-    public void popupMessage() {
+    public CreateBusinessTrip popupMessage() {
         clickSaveAndClose.click();
         loading();
         messageValidationFailed.isDisplayed();
 
         assertTrue(messageValidationFailed.isDisplayed(), "Страница не загрузилась");
         assertEquals("Список командируемых сотрудников не может быть пустым", messageValidationFailed.getText(), "Сообщения об ошибке валидации не появилось!");
+        return pageManager.getCreateBusinessTrip();
     }
 }
